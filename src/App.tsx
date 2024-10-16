@@ -16,5 +16,6 @@ const App: React.FC = () => {
     </div>
   );
 };
+// funkar det
 
 export default App;

@@ -8,7 +8,7 @@ const Register: React.FC = () => {
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/user/register", {
+      const response = await fetch("https://dolphin-app-5wfkn.ondigitalocean.app/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -18,15 +18,18 @@ const Register: React.FC = () => {
           password,
         }),
       });
-
+  
       if (response.ok) {
         setMessage("Registration successful! You can now log in.");
-      } 
-      // Removed error handling for unsuccessful or duplicate registrations
+      } else {
+        setMessage("Registration failed: Username may already exist.");
+      }
     } catch (error) {
-      // Removed error message handling
+      console.error("Registration error:", error);
+      setMessage("Registration error: Something went wrong.");
     }
   };
+  
 
   return (
     <div>

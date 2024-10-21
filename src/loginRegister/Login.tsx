@@ -1,15 +1,20 @@
 import React, { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 interface User {
   username: string;
   password: string;
 }
 
-const Login: React.FC = () => {
+interface LoginProps {
+  onLoginSuccess: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-
+  const navigate = useNavigate(); // Initialize useNavigate
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     try {
@@ -23,15 +28,23 @@ const Login: React.FC = () => {
           password,
         }),
       });
-
+  
       if (response.ok) {
         const data: User = await response.json();
         setMessage(`Welcome ${data.username}`);
+        
+        // Store session info in localStorage to keep user logged in
+        localStorage.setItem("user", JSON.stringify(data));
+        onLoginSuccess(); // Update the parent component on successful login
+        navigate("/"); // Redirect to Home Page
+      } else {
+        setMessage("Login failed. Please try again.");
       }
     } catch (error) {
-      // Removed error message handling
+      setMessage("An error occurred. Please try again.");
     }
   };
+  
 
   return (
     <div>
@@ -62,4 +75,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login; // Ensure this default export is present
+export default Login;

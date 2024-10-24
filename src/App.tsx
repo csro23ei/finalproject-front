@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Login from "./loginRegister/Login";
 import Register from "./loginRegister/Register";
 import HomePage from "./Home/HomePage";
 import AiChatPage from "./AiChat/AiChat";
-import PremiumPage from "./premium/premium";
+import FriendsPage from "./Friend/friendspage"; // Add Friends page import
 
 const App: React.FC = () => {
   const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -40,7 +40,8 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/ai" element={<AiChatPage />} />
-            <Route path="/premium" element={<PremiumPage />} />
+            <Route path="/friends" element={<FriendsPage />} /> {/* Add friends route */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         )}
       </div>

@@ -36,6 +36,7 @@ const FriendsPage: React.FC = () => {
       setFriends((prevFriends) => [...prevFriends, friendUsername]);
     }
   };
+  // tester
 
   const handleRemoveFriend = async (friendUsername: string): Promise<void> => {
     const userData = localStorage.getItem("user");

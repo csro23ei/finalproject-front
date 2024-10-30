@@ -1,10 +1,5 @@
 import React, { useState, FormEvent } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-
-interface User {
-  username: string;
-  password: string;
-}
+import { useNavigate } from "react-router-dom";
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -14,7 +9,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     try {
@@ -23,20 +19,14 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
+        body: JSON.stringify({ username, password }),
       });
-  
+
       if (response.ok) {
-        const data: User = await response.json();
-        setMessage(`Welcome ${data.username}`);
-        
-        // Store session info in localStorage to keep user logged in
+        const data = await response.json();
         localStorage.setItem("user", JSON.stringify(data));
-        onLoginSuccess(); // Update the parent component on successful login
-        navigate("/"); // Redirect to Home Page
+        onLoginSuccess();
+        navigate("/");
       } else {
         setMessage("Login failed. Please try again.");
       }
@@ -44,7 +34,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       setMessage("An error occurred. Please try again.");
     }
   };
-  
 
   return (
     <div>
@@ -52,20 +41,12 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       <form onSubmit={handleLogin}>
         <label>
           Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
         </label>
         <br />
         <label>
           Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
         <br />
         <button type="submit">Login</button>

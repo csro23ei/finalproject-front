@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
 
 const FriendsPage: React.FC = () => {
-  const [friends, setFriends] = useState<string[]>([]);
+  const [friends, setFriends] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
-    // Load friends on page load
     const loadFriends = async () => {
       const userData = localStorage.getItem("user");
       if (userData) {
         const user = JSON.parse(userData);
-        const response = await fetch(`http://localhost:8080/user/${user.username}/friends`);
-        const data = await response.json();
-        setFriends(data);
+        try {
+          const response = await fetch(`http://localhost:8080/user/${user.username}/friends`);
+          if (!response.ok) {
+            throw new Error("Failed to load friends");
+          }
+          const data = await response.json();
+          setFriends(Array.isArray(data) ? data : []);
+        } catch (error) {
+          console.error("Error loading friends:", error);
+          setFriends([]);
+        }
       }
     };
     loadFriends();
@@ -33,10 +40,9 @@ const FriendsPage: React.FC = () => {
       await fetch(`http://localhost:8080/user/addFriend?username=${user.username}&friendUsername=${friendUsername}`, {
         method: "POST",
       });
-      setFriends((prevFriends) => [...prevFriends, friendUsername]);
+      setFriends((prevFriends) => [...prevFriends, { username: friendUsername }]);
     }
   };
-  // tester
 
   const handleRemoveFriend = async (friendUsername: string): Promise<void> => {
     const userData = localStorage.getItem("user");
@@ -45,7 +51,7 @@ const FriendsPage: React.FC = () => {
       await fetch(`http://localhost:8080/user/removeFriend?username=${user.username}&friendUsername=${friendUsername}`, {
         method: "POST",
       });
-      setFriends((prevFriends) => prevFriends.filter((friend) => friend !== friendUsername));
+      setFriends((prevFriends) => prevFriends.filter((friend) => friend.username !== friendUsername));
     }
   };
 
@@ -62,12 +68,16 @@ const FriendsPage: React.FC = () => {
 
       <h3>Your Friends</h3>
       <ul>
-        {friends.map((friend) => (
-          <li key={friend}>
-            {friend}
-            <button onClick={() => handleRemoveFriend(friend)}>Remove</button>
-          </li>
-        ))}
+        {Array.isArray(friends) && friends.length > 0 ? (
+          friends.map((friend) => (
+            <li key={friend.username}>
+              {friend.username}
+              <button onClick={() => handleRemoveFriend(friend.username)}>Remove</button>
+            </li>
+          ))
+        ) : (
+          <li>No friends found.</li>
+        )}
       </ul>
 
       <h3>Search Results</h3>

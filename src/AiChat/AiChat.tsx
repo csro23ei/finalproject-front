@@ -6,18 +6,19 @@ const AiChatPage: React.FC = () => {
 
   const handleSend = async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/chat`, {
+      // Directly use localhost:8080 for the API call
+      const res = await fetch("http://localhost:8080/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ prompt: input }),
       });
-  
-      // Process the response as you have it
+
+      // Process the response based on the content type
       const contentType = res.headers.get("content-type");
-  
       let data;
+
       if (contentType && contentType.includes("application/json")) {
         data = await res.json();
         setResponse(data.response || "No response from AI");
@@ -30,7 +31,6 @@ const AiChatPage: React.FC = () => {
       setResponse("Error communicating with AI");
     }
   };
-  
 
   return (
     <div>

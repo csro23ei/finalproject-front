@@ -13,6 +13,7 @@
     "@stomp/stompjs": "^7.0.0",
     "@stripe/stripe-js": "^4.8.0",
     "buffer": "^6.0.3",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "finalproject-front": "file:",
     "global": "^4.4.0",

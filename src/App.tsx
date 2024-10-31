@@ -4,6 +4,7 @@ import HomePage from "./Home/HomePage";
 import FriendsPage from "./Friend/friendspage";
 import LoginPage from "./loginRegister/Login";
 import Register from "./loginRegister/Register";
+import ChatPage from "./Friend/ChatPage"; // Import ChatPage
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -20,6 +21,7 @@ const App: React.FC = () => {
           <>
             <Route path="/" element={<HomePage />} />
             <Route path="/friends" element={<FriendsPage />} />
+            <Route path="/chat/:friendUsername" element={<ChatPage />} /> {/* Add chat route */}
             <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (

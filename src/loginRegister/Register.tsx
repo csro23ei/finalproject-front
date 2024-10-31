@@ -1,9 +1,11 @@
 import React, { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ const Register: React.FC = () => {
           password,
         }),
       });
-  
+
       if (response.ok) {
         setMessage("Registration successful! You can now log in.");
       } else {
@@ -29,7 +31,6 @@ const Register: React.FC = () => {
       setMessage("Registration error: Something went wrong.");
     }
   };
-  
 
   return (
     <div>
@@ -56,6 +57,7 @@ const Register: React.FC = () => {
         <button type="submit">Register</button>
       </form>
       <p>{message}</p>
+      <button onClick={() => navigate("/login")}>Login</button> {/* Navigate to Login */}
     </div>
   );
 };

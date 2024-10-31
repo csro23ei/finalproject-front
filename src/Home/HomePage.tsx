@@ -9,21 +9,16 @@ const HomePage: React.FC = () => {
     if (userData) {
       const user = JSON.parse(userData);
       try {
-        // Send POST request to logout user on the server
         await fetch("http://localhost:8080/user/logout", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username: user.username }),
         });
       } catch (error) {
         console.error("Failed to log out on the server", error);
       }
-
-      // Clear frontend session after successful logout
       localStorage.removeItem("user");
-      navigate("/"); // Redirect to the login page
+      navigate("/");
     }
   };
 

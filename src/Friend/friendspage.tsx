@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FriendsPage: React.FC = () => {
   const [friends, setFriends] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadFriends = async () => {
@@ -11,10 +13,10 @@ const FriendsPage: React.FC = () => {
       if (userData) {
         const user = JSON.parse(userData);
         try {
-          const response = await fetch(`http://localhost:8080/user/${user.username}/friends`);
-          if (!response.ok) {
-            throw new Error("Failed to load friends");
-          }
+          const response = await fetch(
+            `http://localhost:8080/user/${user.username}/friends`
+          );
+          if (!response.ok) throw new Error("Failed to load friends");
           const data = await response.json();
           setFriends(Array.isArray(data) ? data : []);
         } catch (error) {
@@ -28,7 +30,9 @@ const FriendsPage: React.FC = () => {
 
   const handleSearch = async (): Promise<void> => {
     if (searchQuery.trim() === "") return;
-    const response = await fetch(`http://localhost:8080/user/search?query=${searchQuery}`);
+    const response = await fetch(
+      `http://localhost:8080/user/search?query=${searchQuery}`
+    );
     const results = await response.json();
     setSearchResults(results);
   };
@@ -37,22 +41,35 @@ const FriendsPage: React.FC = () => {
     const userData = localStorage.getItem("user");
     if (userData) {
       const user = JSON.parse(userData);
-      await fetch(`http://localhost:8080/user/addFriend?username=${user.username}&friendUsername=${friendUsername}`, {
-        method: "POST",
-      });
-      setFriends((prevFriends) => [...prevFriends, { username: friendUsername }]);
+      await fetch(
+        `http://localhost:8080/user/addFriend?username=${user.username}&friendUsername=${friendUsername}`,
+        { method: "POST" }
+      );
+      setFriends((prevFriends) => [
+        ...prevFriends,
+        { username: friendUsername },
+      ]);
     }
   };
 
-  const handleRemoveFriend = async (friendUsername: string): Promise<void> => {
+  const handleRemoveFriend = async (
+    friendUsername: string
+  ): Promise<void> => {
     const userData = localStorage.getItem("user");
     if (userData) {
       const user = JSON.parse(userData);
-      await fetch(`http://localhost:8080/user/removeFriend?username=${user.username}&friendUsername=${friendUsername}`, {
-        method: "POST",
-      });
-      setFriends((prevFriends) => prevFriends.filter((friend) => friend.username !== friendUsername));
+      await fetch(
+        `http://localhost:8080/user/removeFriend?username=${user.username}&friendUsername=${friendUsername}`,
+        { method: "POST" }
+      );
+      setFriends((prevFriends) =>
+        prevFriends.filter((friend) => friend.username !== friendUsername)
+      );
     }
+  };
+
+  const handleChat = (friendUsername: string) => {
+    navigate(`/chat/${friendUsername}`);
   };
 
   return (
@@ -65,21 +82,22 @@ const FriendsPage: React.FC = () => {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       <button onClick={handleSearch}>Search</button>
-
       <h3>Your Friends</h3>
       <ul>
         {Array.isArray(friends) && friends.length > 0 ? (
           friends.map((friend) => (
             <li key={friend.username}>
               {friend.username}
-              <button onClick={() => handleRemoveFriend(friend.username)}>Remove</button>
+              <button onClick={() => handleRemoveFriend(friend.username)}>
+                Remove
+              </button>
+              <button onClick={() => handleChat(friend.username)}>Chat</button>
             </li>
           ))
         ) : (
           <li>No friends found.</li>
         )}
       </ul>
-
       <h3>Search Results</h3>
       <ul>
         {searchResults.map((result) => (

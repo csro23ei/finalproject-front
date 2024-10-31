@@ -52,6 +52,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         <button type="submit">Login</button>
       </form>
       <p>{message}</p>
+      <button onClick={() => navigate("/register")}>Register</button> {/* Navigate to Register */}
     </div>
   );
 };

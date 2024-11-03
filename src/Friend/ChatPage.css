@@ -1,0 +1,56 @@
+/* ChatPage.css */
+
+.chat-container {
+    background-color: black;
+    color: orange;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.chat-container h2 {
+    border-bottom: 2px solid orange;
+}
+
+.message-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.message {
+    margin: 10px 0;
+}
+
+.message strong {
+    color: orange;
+}
+
+.message span {
+    font-size: 0.8rem;
+    color: gray;
+}
+
+input[type="text"] {
+    width: calc(100% - 100px);
+    padding: 10px;
+    border: 1px solid orange;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: orange;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ff8c00;
+    /* Darker orange on hover */
+}

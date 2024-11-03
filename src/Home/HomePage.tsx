@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import './Home.css';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const HomePage: React.FC = () => {
       <Link to="/friends">
         <button>Friends</button>
       </Link>
-      <Link to="/ai">
+      <Link to="/ai"> {/* Make the AI button a Link */}
         <button>AI</button>
       </Link>
       <Link to="/premium">

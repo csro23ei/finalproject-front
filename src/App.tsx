@@ -4,7 +4,11 @@ import HomePage from "./Home/HomePage";
 import FriendsPage from "./Friend/friendspage";
 import LoginPage from "./loginRegister/Login";
 import Register from "./loginRegister/Register";
-import ChatPage from "./Friend/ChatPage"; // Import ChatPage
+import AiChatPage from "./AiChat/AiChat"; // Ensure you import AiChatPage
+import ChatPage from "./Friend/ChatPage";
+
+
+(window as any).global = window;
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -21,7 +25,8 @@ const App: React.FC = () => {
           <>
             <Route path="/" element={<HomePage />} />
             <Route path="/friends" element={<FriendsPage />} />
-            <Route path="/chat/:friendUsername" element={<ChatPage />} /> {/* Add chat route */}
+            <Route path="/ai" element={<AiChatPage />} />
+            <Route path="/chat/:friendUsername" element={<ChatPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (

@@ -1,0 +1,41 @@
+/* FriendsPage.css */
+
+.friends-container {
+    background-color: black;
+    color: orange;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+input[type="text"] {
+    width: calc(100% - 50px);
+    padding: 10px;
+    border: 1px solid orange;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+}
+
+button {
+    background-color: orange;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ff8c00;
+    /* Darker orange on hover */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}

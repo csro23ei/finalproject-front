@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import './Register.css';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");

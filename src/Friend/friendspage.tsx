@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import './FriendPage.css';
+
+
 
 const FriendsPage: React.FC = () => {
   const [friends, setFriends] = useState<any[]>([]);
